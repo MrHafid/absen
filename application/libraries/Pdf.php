@@ -8,7 +8,9 @@
  * @link        https://github.com/ardianta/codeigniter-dompdf
  */
 
+require_once APPPATH . 'third_party/dompdf/autoload.inc.php'; // Sesuaikan dengan lokasi folder dompdf
 use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class Pdf extends Dompdf
 {
@@ -38,7 +40,7 @@ class Pdf extends Dompdf
     public function load_view($view, $data = array())
     {
         $html = $this->ci()->load->view($view, $data, TRUE);
-        $this->load_html($html);
+        $this->loadHtml($html);
         // Render the PDF
         $this->render();
         // Output the generated PDF to Browser

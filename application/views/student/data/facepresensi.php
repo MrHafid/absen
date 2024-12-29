@@ -106,7 +106,7 @@
 		<canvas id="overlay"></canvas>
 	</div>
 
-	<footer>&copy; 2024 Mr Hafid. Face detection</footer>
+	<footer>&copy; 2024 Presensi Face detection</footer>
 
 	<!-- Skrip pendeteksi wajah -->
 	<script src="<?= base_url(); ?>assets/js/face-api/dist/face-api.js"></script>

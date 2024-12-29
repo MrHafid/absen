@@ -148,7 +148,7 @@ $minggu = $this->db->query($sqlminggu)->result_array()[0]['status'];
 
             return false;
         }
-        $path = './assets/images/logo.png';
+        $path = FCPATH . 'assets/images/logo.png';
         $logo = encode_img_base64($path);
 
         isset($_GET['bulan']) ? $bulan = nama_bulan($_GET['bulan']) : $bulan = nama_bulan(date('m'));
@@ -159,7 +159,7 @@ $minggu = $this->db->query($sqlminggu)->result_array()[0]['status'];
         <div>
             <table width="100%">
                 <tr>
-                    <td width="80" align="left"><img src="<?= $logo ?>" width="100%"></td>
+                    <!-- <td width="80" align="left"><img src="<?= $logo ?>" width="100%"></td> -->
                     <td width="80" align="center">
                         <h1><?= WEBNAME ?></h1>
                         <h2>Catatan Absen Kelas <?= $kelas . ' ' . $jurusannya . ' Bulan ' . $bulan ?> </h2>
