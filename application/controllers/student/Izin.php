@@ -56,7 +56,7 @@ class Izin extends CI_Controller
             if (!$this->upload->do_upload('bukti')) {
                 $this->session->set_flashdata('flash', ['alert' => 'danger', 'message' => $this->upload->display_errors()]);
             } else {
-                $this->upload->data('is_image') == false ? $bukti =  $config['file_name'] . '.' . $this->upload->data('file_ext') : $bukti =  $config['file_name'] . '.jpg';
+                $this->upload->data('is_image') == false ? $bukti =  $config['file_name'] . '.' . $this->upload->data('file_ext') : $bukti =  $config['file_name'] . $this->upload->data('file_ext');
 
                 $this->M_izin->inputizin($bukti, $datauser['nis_siswa']);
                 $this->session->set_flashdata('flash', ['alert' => 'success', 'message' => 'Izin berhasil di kirim,silahkan menunggu di cek oleh guru/ kordinator sekolah']);

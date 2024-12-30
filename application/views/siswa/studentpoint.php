@@ -458,12 +458,3 @@
 		});
 	});
 </script>
-
-
-
-<!-- <script>
-	var table = $('#tableSiswa').DataTable();
-	$('#tableSiswa tbody').on('click', 'tr', function() {
-		var data = table.row(this).data();
-	});
-</script> -->

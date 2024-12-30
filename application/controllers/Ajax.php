@@ -250,7 +250,7 @@ berikut link untuk meneruskan pengaitan akun anda
             $dataizin['type'] == 'Sakit' ? $keterangan = 's' : $keterangan = 'i';
             $kodekelas = $dataizin['kode_kelas'];
             $kodejurusan = $dataizin['kode_jurusan'];
-            $this->db->query("INSERT INTO tabel_detail_absen VALUES ('','$jam','$tanggal','$nis','$keterangan','$kodekelas','$kodejurusan','1','1')");
+            $this->db->query("INSERT INTO tabel_detail_absen VALUES ('','$jam','$tanggal','$nis','$keterangan','$kodekelas','$kodejurusan','1','1',null,null)");
             $this->db->query("UPDATE tabel_izin SET status = 'Diterima'  WHERE id = '$idizin'");
             $this->session->set_flashdata('flash', ['alert' => 'success', 'message' => 'Izin berhasil di konfirmasi, terima']);
         } else if ($aksi == 'Ditolak') {
@@ -258,7 +258,12 @@ berikut link untuk meneruskan pengaitan akun anda
             $this->session->set_flashdata('flash', ['alert' => 'success', 'message' => 'Izin berhasil di Di tolak']);
         }
 
-        echo json_encode(base_url('izin'));
+		echo json_encode([
+			'status' => 'success',
+			'data' => base_url('izin')
+		]);
+		
+        // echo json_encode(base_url('izin'));
     }
 
     public function verif_email_staff()
