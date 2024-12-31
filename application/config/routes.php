@@ -53,3 +53,5 @@ $route['default_controller'] = 'Welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 $route['wa_gateway'] = 'Welcome/wa';
+
+$route['student'] = 'student/auth';
