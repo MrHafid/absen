@@ -199,4 +199,37 @@ class M_data extends CI_Model
 			'err_message' => $err_message
 		);
 	}
+
+	public function get_dashboard_presensi_bulanan()
+	{
+		$current_month = date('Y-m'); // Mendapatkan format bulan sekarang (YYYY-MM)
+
+		$err_code = 0;
+		$err_message = '';
+		$data = null;
+
+		// Query untuk menghitung total berdasarkan tipe keterangan langsung menjadi kolom
+		$this->db->select("
+			SUM(CASE WHEN keterangan = 'H' THEN 1 ELSE 0 END) as total_hadir,
+			SUM(CASE WHEN keterangan = 'S' THEN 1 ELSE 0 END) as total_sakit,
+			SUM(CASE WHEN keterangan = 'I' THEN 1 ELSE 0 END) as total_izin,
+			SUM(CASE WHEN keterangan = 'A' THEN 1 ELSE 0 END) as total_alpa
+		");
+		$this->db->from('tabel_detail_absen');
+		$this->db->like('tanggal_absen', $current_month, 'after'); // Hanya ambil data bulan sekarang
+		$query = $this->db->get();
+
+		if ($query->num_rows() == 0) {
+			$err_code++;
+			$err_message = 'Data absen untuk bulan ini tidak ditemukan.';
+		} else {
+			$data = $query->row_array(); // Mengambil data sebagai row (bukan array index)
+		}
+
+		return array(
+			'err_code' => $err_code,
+			'err_message' => $err_message,
+			'data' => $data
+		);
+	}
 }

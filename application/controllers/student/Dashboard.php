@@ -27,6 +27,7 @@ class Dashboard extends CI_Controller
 		$this->load->model('M_absensi');
 		$this->load->model('M_data');
 		$data_presensi = $this->M_data->get_presensi_day($datauser['nis']);
+		$ds = $this->M_data->get_dashboard_presensi_bulanan($datauser['nis']);
 		$presensi = null;
 		if ($data_presensi['err_code'] == 0) {
 			$presensi = $data_presensi['data'];
@@ -36,6 +37,7 @@ class Dashboard extends CI_Controller
 			'user' => $datauser,
 			'webname' => WEBNAME,
 			'presensi' => $presensi,
+			'presensi_month' => $ds['data'],
 			'cekliburnasional' => $this->M_absensi->cekliburnasional(date('Y-m-d')),
 			'cekliburweekend' => $this->M_absensi->cekstatusweekend(strtolower(hari_ini()))
 		];

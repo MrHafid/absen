@@ -148,9 +148,9 @@
 											</span>
 											<div class="media-body text-white">
 												<h5 class="text-white">Jumlah Absen ( Bulan ini )</h5>
-												<p>Izin : <?= $this->db->query("SELECT * FROM tabel_detail_absen WHERE nis = '$nis' AND tanggal_absen = '$tgl' AND keterangan = 'i' ")->num_rows()  ?> Sakit : <?= $this->db->query("SELECT * FROM tabel_detail_absen WHERE nis = '$nis' AND tanggal_absen = '$tgl' AND keterangan = 's' ")->num_rows()  ?> Alpha : <?= $this->db->query("SELECT * FROM tabel_detail_absen WHERE nis = '$nis' AND tanggal_absen = '$tgl' AND keterangan = 'a' ")->num_rows()  ?></p>
-
-
+												<p>Izin : <?= $presensi_month['total_izin'] ?? '0' ?> 
+												Sakit : <?= $presensi_month['total_sakit'] ?? '0'  ?> 
+												Alpha : <?= $presensi_month['total_alpa'] ?? '0' ?></p>
 											</div>
 										</div>
 									</div>

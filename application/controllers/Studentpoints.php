@@ -154,7 +154,11 @@ class Studentpoints extends CI_Controller
 			// $student['ranking'] = $ranking++; // Ranking akan bertambah tiap iterasi
 
 			// Periksa apakah siswa sudah ada di database
-			$existing = $this->db->get_where('student_points', ['student_id' => $student['student_id']])->row();
+			$existing = $this->db->get_where('student_points', [
+				'student_id' => $student['student_id'],
+				'DATE(created)' => date('Y-m-d'),
+				'created_by' => $this->session->userdata('id'),
+			])->row();
 
 			if ($existing) {
 				// Jika data siswa sudah ada, lakukan update
@@ -169,6 +173,7 @@ class Studentpoints extends CI_Controller
 					'total_keaktifan' => $student['total_keaktifan'],
 					'total_sikap' => $student['total_sikap'],
 					'total_points' => $student['total_points'],
+					'created_by' => $this->session->userdata('id'),
 					// 'ranking' => $student['ranking'],
 				]);
 			} else {
@@ -184,6 +189,7 @@ class Studentpoints extends CI_Controller
 					'total_keaktifan' => $student['total_keaktifan'],
 					'total_sikap' => $student['total_sikap'],
 					'total_points' => $student['total_points'],
+					'created_by' => $this->session->userdata('id'),
 					// 'created_by' => 'idlogin'
 					// 'ranking' => $student['ranking'],
 				]);

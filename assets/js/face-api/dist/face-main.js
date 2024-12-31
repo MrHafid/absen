@@ -3,8 +3,8 @@ const videoEl = document.getElementById('videoEl');
 const base_url = document.querySelector('meta[name="base-url"]').getAttribute('content');
 
 // Ex Static sample
-const sourceLat = -7.308477772999669; // Latitude Pusat -7.2493677,112.7265819 (Example LatLong 100m +)
-const sourceLong = 112.77937301073484; // Longitude Pusat
+const sourceLat = -8.1145451; // Latitude Pusat -7.2493677,112.7265819 (Example LatLong 100m +) -8.1145451,113.2272869
+const sourceLong = 113.2272869; // Longitude Pusat
 
 function isWithinRadius(lat1, lon1, lat2, lon2, radiusInMeters = 100) {
 	const distanceInKm = getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2);

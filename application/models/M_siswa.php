@@ -14,15 +14,16 @@ class M_siswa extends CI_Model
 
 	public function getStudentRankings($idkelas)
 	{
-		$this->db->select('tabel_siswa.nama_siswa, student_points.total_points');
+		$this->db->select('tabel_siswa.nama_siswa, ROUND(SUM(student_points.total_points), 3) as total_points');
 		$this->db->from('student_points');
 		$this->db->join('tabel_siswa', 'tabel_siswa.id_siswa = student_points.student_id');
 		$this->db->where('tabel_siswa.kode_kelas', $idkelas);
-		$this->db->order_by('student_points.total_points', 'DESC');
+		$this->db->group_by('tabel_siswa.id_siswa'); // Mengelompokkan berdasarkan id_siswa
+		$this->db->order_by('total_points', 'DESC'); // Mengurutkan berdasarkan total poin
 		$query = $this->db->get();
-
+	
 		return $query->result_array();
-	}
+	}	
 
 
 	public function getAllSiswaWithPoints()
