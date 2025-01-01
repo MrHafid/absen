@@ -21,9 +21,9 @@ class M_siswa extends CI_Model
 		$this->db->group_by('tabel_siswa.id_siswa'); // Mengelompokkan berdasarkan id_siswa
 		$this->db->order_by('total_points', 'DESC'); // Mengurutkan berdasarkan total poin
 		$query = $this->db->get();
-	
+
 		return $query->result_array();
-	}	
+	}
 
 
 	public function getAllSiswaWithPoints()
@@ -39,7 +39,20 @@ class M_siswa extends CI_Model
 		$this->db->join('student_points', 'tabel_siswa.id_siswa = student_points.student_id', 'left');
 
 		$query = $this->db->get();
-		return $query->result();
+		$results = $query->result();
+
+		// Denormalisasi data
+		$max_value = 5; // Skala normalisasi
+		foreach ($results as &$row) {
+			$row->C1_1 = $row->C1_1 * $max_value;
+			$row->C1_2 = $row->C1_2 * $max_value;
+			$row->C1_3 = $row->C1_3 * $max_value;
+			$row->C2_1 = $row->C2_1 * $max_value;
+			$row->C2_2 = $row->C2_2 * $max_value;
+			$row->C2_3 = $row->C2_3 * $max_value;
+		}
+
+		return $results;
 	}
 
 	public function getSiswaWithPoints($kelasId)
@@ -56,8 +69,22 @@ class M_siswa extends CI_Model
 		$this->db->where('tabel_siswa.kode_kelas', $kelasId);
 
 		$query = $this->db->get();
-		return $query->result();
+		$results = $query->result();
+
+		// Denormalisasi data
+		$max_value = 5; // Skala normalisasi
+		foreach ($results as &$row) {
+			$row->C1_1 = $row->C1_1 * $max_value;
+			$row->C1_2 = $row->C1_2 * $max_value;
+			$row->C1_3 = $row->C1_3 * $max_value;
+			$row->C2_1 = $row->C2_1 * $max_value;
+			$row->C2_2 = $row->C2_2 * $max_value;
+			$row->C2_3 = $row->C2_3 * $max_value;
+		}
+
+		return $results;
 	}
+
 
 	public function datasiswaByKelas($idkelas)
 	{

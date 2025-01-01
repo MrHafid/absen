@@ -107,6 +107,8 @@ class Studentpoints extends CI_Controller
 			'tidak_mendengarkan' => 0.133,
 		];
 
+		$max_value = 5;
+
 		// Proses data siswa untuk menghitung total keaktifan dan sikap
 		foreach ($data as $item) {
 			if (!isset($item['student_id'])) {
@@ -114,32 +116,51 @@ class Studentpoints extends CI_Controller
 			}
 
 			// Hitung total keaktifan dan sikap
-			$total_keaktifan =
-				($item['sering_menjawab'] ?? 0) * $weights['sering_menjawab'] +
-				($item['sering_bertanya'] ?? 0) * $weights['sering_bertanya'] +
-				($item['membantu_guru'] ?? 0) * $weights['membantu_guru'];
+			// Maksimum nilai untuk setiap indikator
+			// Proses data siswa untuk menghitung total keaktifan dan sikap
+			foreach ($data as $item) {
+				if (!isset($item['student_id'])) {
+					continue; // Abaikan jika student_id tidak ada
+				}
 
-			$total_sikap =
-				($item['terlambat'] ?? 0) * $weights['terlambat'] +
-				($item['tidur'] ?? 0) * $weights['tidur'] +
-				($item['tidak_mendengarkan'] ?? 0) * $weights['tidak_mendengarkan'];
+				// Normalisasi nilai ke skala 0-1
+				$normalized_values = [
+					'sering_menjawab' => ($item['sering_menjawab'] ?? 0) / $max_value,
+					'sering_bertanya' => ($item['sering_bertanya'] ?? 0) / $max_value,
+					'membantu_guru' => ($item['membantu_guru'] ?? 0) / $max_value,
+					'terlambat' => ($item['terlambat'] ?? 0) / $max_value,
+					'tidur' => ($item['tidur'] ?? 0) / $max_value,
+					'tidak_mendengarkan' => ($item['tidak_mendengarkan'] ?? 0) / $max_value,
+				];
 
-			// Hitung total points sebagai gabungan dari total keaktifan dan sikap
-			$total_points = $total_keaktifan + $total_sikap;
+				// Hitung total keaktifan dan sikap setelah normalisasi
+				$total_keaktifan =
+					$normalized_values['sering_menjawab'] * $weights['sering_menjawab'] +
+					$normalized_values['sering_bertanya'] * $weights['sering_bertanya'] +
+					$normalized_values['membantu_guru'] * $weights['membantu_guru'];
 
-			// Simpan total keaktifan, total sikap, dan total points
-			$students[] = [
-				'student_id' => $item['student_id'],
-				'sering_menjawab' => $item['sering_menjawab'],
-				'sering_bertanya' => $item['sering_bertanya'],
-				'membantu_guru' => $item['membantu_guru'],
-				'terlambat' => $item['terlambat'],
-				'tidur' => $item['tidur'],
-				'tidak_mendengarkan' => $item['tidak_mendengarkan'],
-				'total_keaktifan' => round($total_keaktifan, 3),
-				'total_sikap' => round($total_sikap, 3),
-				'total_points' => round($total_points, 3), // Total points gabungan
-			];
+				$total_sikap =
+					$normalized_values['terlambat'] * $weights['terlambat'] +
+					$normalized_values['tidur'] * $weights['tidur'] +
+					$normalized_values['tidak_mendengarkan'] * $weights['tidak_mendengarkan'];
+
+				// Hitung total points sebagai gabungan dari total keaktifan dan sikap
+				$total_points = $total_keaktifan + $total_sikap;
+
+				// Simpan total keaktifan, total sikap, dan total points (normalisasi)
+				$students[] = [
+					'student_id' => $item['student_id'],
+					'sering_menjawab' => $normalized_values['sering_menjawab'],
+					'sering_bertanya' => $normalized_values['sering_bertanya'],
+					'membantu_guru' => $normalized_values['membantu_guru'],
+					'terlambat' => $normalized_values['terlambat'],
+					'tidur' => $normalized_values['tidur'],
+					'tidak_mendengarkan' => $normalized_values['tidak_mendengarkan'],
+					'total_keaktifan' => round($total_keaktifan, 3),
+					'total_sikap' => round($total_sikap, 3),
+					'total_points' => round($total_points, 3), // Total points gabungan
+				];
+			}
 		}
 
 		// Urutkan siswa berdasarkan total points (tertinggi ke terendah)
@@ -319,22 +340,23 @@ class Studentpoints extends CI_Controller
 	// 	return;
 	// }
 
-	public function getRankings() {
+	public function getRankings()
+	{
 		$codeKelas = $this->input->post('kelas');
 
 		$dataSiswa = $this->M_siswa->getStudentRankings($codeKelas);
-			if ($dataSiswa) {
-				// Kirim data siswa dalam format JSON
-				echo json_encode([
-					'status' => 'success',
-					'data' => $dataSiswa
-				]);
-			} else {
-				// Jika tidak ada hasil
-				echo json_encode([
-					'status' => 'error',
-					'message' => 'Tidak ada siswa yang ditemukan.'
-				]);
-			}
+		if ($dataSiswa) {
+			// Kirim data siswa dalam format JSON
+			echo json_encode([
+				'status' => 'success',
+				'data' => $dataSiswa
+			]);
+		} else {
+			// Jika tidak ada hasil
+			echo json_encode([
+				'status' => 'error',
+				'message' => 'Tidak ada siswa yang ditemukan.'
+			]);
+		}
 	}
 }

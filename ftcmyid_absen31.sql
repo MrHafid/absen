@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 31, 2024 at 09:32 AM
+-- Generation Time: Jan 01, 2025 at 02:44 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.3.25
 
@@ -272,12 +272,12 @@ CREATE TABLE `students` (
 CREATE TABLE `student_points` (
   `id` int(11) NOT NULL,
   `student_id` int(11) DEFAULT NULL,
-  `sering_menjawab` int(11) DEFAULT NULL,
-  `sering_bertanya` int(11) DEFAULT NULL,
-  `membantu_guru` int(11) DEFAULT NULL,
-  `terlambat` int(11) DEFAULT NULL,
-  `tidur` int(11) DEFAULT NULL,
-  `tidak_mendengarkan` int(11) DEFAULT NULL,
+  `sering_menjawab` float DEFAULT NULL,
+  `sering_bertanya` float DEFAULT NULL,
+  `membantu_guru` float DEFAULT NULL,
+  `terlambat` float DEFAULT NULL,
+  `tidur` float DEFAULT NULL,
+  `tidak_mendengarkan` float DEFAULT NULL,
   `total_keaktifan` float DEFAULT NULL,
   `total_sikap` float DEFAULT NULL,
   `total_points` float DEFAULT NULL,
@@ -290,8 +290,8 @@ CREATE TABLE `student_points` (
 --
 
 INSERT INTO `student_points` (`id`, `student_id`, `sering_menjawab`, `sering_bertanya`, `membantu_guru`, `terlambat`, `tidur`, `tidak_mendengarkan`, `total_keaktifan`, `total_sikap`, `total_points`, `created`, `created_by`) VALUES
-(28, 5, 4, 3, 5, 4, 5, 5, 2.4, 1.862, 4.262, '2024-12-30', 8),
-(29, 5, 4, 3, 5, 4, 5, 5, 2.4, 1.862, 4.262, '2024-12-31', 8);
+(36, 5, 0.8, 0.4, 0.6, 0.8, 0.4, 1, 0.36, 0.293, 0.653, '2024-12-31', 8),
+(37, 5, 0.6, 0.8, 0.8, 0.6, 0.8, 0.8, 0.44, 0.293, 0.733, '2025-01-01', 8);
 
 -- --------------------------------------------------------
 
@@ -1258,7 +1258,7 @@ ALTER TABLE `students`
 -- AUTO_INCREMENT for table `student_points`
 --
 ALTER TABLE `student_points`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `tabel_api`
