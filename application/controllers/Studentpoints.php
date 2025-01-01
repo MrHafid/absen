@@ -184,6 +184,8 @@ class Studentpoints extends CI_Controller
 			if ($existing) {
 				// Jika data siswa sudah ada, lakukan update
 				$this->db->where('student_id', $student['student_id']);
+				$this->db->where('DATE(created)', date('Y-m-d'));
+				$this->db->where('created_by', $this->session->userdata('id'));
 				$this->db->update('student_points', [
 					'sering_menjawab' => $student['sering_menjawab'],
 					'sering_bertanya' => $student['sering_bertanya'],
